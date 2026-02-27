@@ -1,4 +1,5 @@
 using guest_house_management_backend.Data;
+using guest_house_management_backend.Extensions;
 using guest_house_management_backend.Repositories.RoleRepo;
 using guest_house_management_backend.Repositories.UserRepo;
 using guest_house_management_backend.Repositories.UserTokenRepo;
@@ -33,25 +34,7 @@ builder.Services.AddCors(options =>
                   .AllowCredentials();
         });
 });
-builder.Services.AddAuthentication(option =>
-{
-    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(option =>
-    {
-        option.SaveToken = true;
-        option.RequireHttpsMetadata = true;
-        option.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidAudience = builder.Configuration["JWT:ValidAudience"],
-            ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!))
-        };
-    });
+builder.Services.AddJwtService(builder.Configuration);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -59,7 +42,6 @@ builder.Services.AddScoped<IRoleRepository , RoleRepository>();
 builder.Services.AddScoped<IUserManagementService , UserManagementService>();
 builder.Services.AddScoped<IEmailSender , EmailSender>();
 builder.Services.AddScoped<IUserTokenRepository , UserTokenRepository>();
-
 
 var app = builder.Build();
 
