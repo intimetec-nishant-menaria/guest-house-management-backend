@@ -91,7 +91,11 @@ namespace guest_house_management_backend.Repositories.BookingRepo
 
         public async Task<Booking?> GetBookingWithDetailsAsync(int bookingId)
         {
-            return await _context.Bookings.FindAsync(bookingId);
+            return await _context.Bookings
+                .Include(b => b.Room)
+                    .ThenInclude(r => r.RoomType)
+                .Include(b => b.Guest)
+                .FirstOrDefaultAsync(b => b.Id == bookingId);
         }
 
         public async Task SaveChangesAsync()
