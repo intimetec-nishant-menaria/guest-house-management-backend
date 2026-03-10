@@ -63,5 +63,10 @@ namespace guest_house_management_backend.Repositories.GuestRepo
                 .Include(b => b.Room)
                 .ToListAsync();
         }
+
+        public async Task SaveChanges()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }

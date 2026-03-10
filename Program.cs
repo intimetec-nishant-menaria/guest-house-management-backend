@@ -3,6 +3,7 @@ using guest_house_management_backend.Extensions;
 using guest_house_management_backend.Middleware;
 using guest_house_management_backend.Repositories.AvailableRoomRepo;
 using guest_house_management_backend.Repositories.BookingRepo;
+using guest_house_management_backend.Repositories.DashboardRepo;
 using guest_house_management_backend.Repositories.GuestRepo;
 using guest_house_management_backend.Repositories.RoleRepo;
 using guest_house_management_backend.Repositories.RoomRepo;
@@ -12,6 +13,7 @@ using guest_house_management_backend.Repositories.UserTokenRepo;
 using guest_house_management_backend.Services.Auth;
 using guest_house_management_backend.Services.AvailRoomService;
 using guest_house_management_backend.Services.Bookings;
+using guest_house_management_backend.Services.DashboardService;
 using guest_house_management_backend.Services.Email;
 using guest_house_management_backend.Services.Guest;
 using guest_house_management_backend.Services.Room;
@@ -63,6 +65,9 @@ builder.Services.AddScoped<IBookingCheckInOutService, BookingCheckInOutService>(
 
 builder.Services.AddScoped<IAvailRoomRepository, AvailRoomRepostiory>();
 builder.Services.AddScoped<IAvailRoomService, AvailRoomService>();
+
+builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
